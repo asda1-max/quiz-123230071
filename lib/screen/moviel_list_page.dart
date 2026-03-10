@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:latihan_kuis_a/models/movie_model.dart';
+import 'package:latihan_kuis_a/screen/details_page.dart';
 
 class MovieListPage extends StatelessWidget {
   const MovieListPage({super.key});
@@ -13,6 +15,60 @@ class MovieListPage extends StatelessWidget {
         
     
      */
-    return const Placeholder();
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        
+        appBar: AppBar(title: Text('Movie List',style: TextStyle(fontSize: 20,fontWeight: FontWeight(800)),),),
+        body: ListView.builder(
+          itemCount: movieList.length ,
+          itemBuilder: (BuildContext context, int index) {
+            final  movie = movieList[index];
+            return Container(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(18, 111, 111, 111),
+                borderRadius: BorderRadius.circular(4)
+              ),
+              padding: EdgeInsetsGeometry.fromLTRB(5,5,0,5),
+              margin: EdgeInsets.fromLTRB(10,8,10,0),
+              child: ListTile(
+              leading: Image.network(movie.imgUrl),
+              title: Text(movie.title + " (" + movie.year.toString() + ")"),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(movie.genre),
+                  Text(movie.rating.toString() + "/10 ⭐", style: TextStyle(fontSize: 10),)
+                ],
+              ),
+              trailing: IconButton(onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailsPage(movie: movie)));
+              }, icon: Icon(Icons.arrow_forward_ios)),
+              ),
+            );
+          },
+        ),
+        drawer: Drawer(
+          child: Column(
+            
+          children: [
+            Container
+            (
+              width: 350,
+              margin: EdgeInsets.all(30),
+              child: Text('Logout',style: TextStyle(fontSize: 20,fontWeight: FontWeight(800)),),
+            ),
+            Container
+            (
+              width: 350,
+              margin: EdgeInsets.all(30),
+              child: ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text('Logout'))
+            )
+          ],
+          )
+        ),
+      ),
+    );
   }
 }
